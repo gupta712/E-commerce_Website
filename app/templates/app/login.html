@@ -15,13 +15,13 @@
       {% endif %} -->
       {% csrf_token %}
    {% for fm in form %}
-   <div class="form-group mb-3">
-      {{fm.label_tag}} {{fm}} <small class="text-danger">{{fm.errors|striptags}}</small>
+   <div class="form-group">
+      {{fm.label_tag}} {{fm}} <small class="text-danger">{{fm.errors|striptags}}</small><br>
       </div>
       {% endfor %}
  
-     <small><a href="" class="text-danger">Forget Password?</a></small><br>
-     <input type="submit" value="submit" class ="btn btn-primary mt-4"><br>
+     <small><a href="{% url 'password_reset' %}" class="text-danger">Forget Password?</a></small><br>
+     <input type="submit" value="Login" class ="btn btn-primary mt-4"><br>
      <div class="text-center text-primary fw-bold"><small>New to Shoppingly ? <a href="{% url 'customerregistration' %}" class="text-danger">create an account</a></small></div>
       {% if form.non_field_errors %}
       {% for error in form.non_field_errors %}

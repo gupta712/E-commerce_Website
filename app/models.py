@@ -36,16 +36,21 @@ STATE_CHOICE = (
     
 )
 
-class Customer(models.Model):
+class Customer_Profile(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
-    name = models.CharField(max_length=100)
-    address = models.CharField(max_length=100)
-    city = models.CharField(max_length=100)
+    name = models.CharField(max_length=100,null=True,blank=True)
+    address = models.CharField(max_length=100,null=True,blank=True)
+    city = models.CharField(max_length=100,null=True,blank=True)
     state = models.CharField(max_length = 20,choices=STATE_CHOICE)
     zip_code = models.IntegerField()
+    contact_number = models.IntegerField(validators=[
+            MaxValueValidator(12),
+            MinValueValidator(10)
+        ],null=True,blank=True)
+    image = models.ImageField(upload_to='profile_image',null=True,blank=True)
 
     def __str__(self):
-        return str(self.id)
+        return str(self.user)
 
         
 CATEGORY_CHOICES = (
@@ -89,7 +94,7 @@ STATUS_CHOICE = (
 
 class OrderPlaced(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
-    customer = models.ForeignKey(Customer,on_delete=models.CASCADE)
+    customer = models.ForeignKey(Customer_Profile,on_delete=models.CASCADE)
     product= models.ForeignKey(Product,on_delete=models.CASCADE)
     quantity =models.PositiveIntegerField(default=1)
     ordered_date = models.DateTimeField(auto_now_add=True)
