@@ -82,9 +82,11 @@ class Cart(models.Model):
 
     def __str__(self):
         return str(self.id)
+    @property
+    def total_cost(self):
+        return self.quantity * self.product.discounted_price
 
-
-STATUS_CHOICE = (
+STATUS_ORDER = (
             ('Accepted','Accepted'),
             ('Packed','Packed'),
             ('On The Way','On The Way'),
@@ -98,7 +100,11 @@ class OrderPlaced(models.Model):
     product= models.ForeignKey(Product,on_delete=models.CASCADE)
     quantity =models.PositiveIntegerField(default=1)
     ordered_date = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(max_length=50,choices=STATE_CHOICE,default='pending')
+    status = models.CharField(max_length=50,choices=STATUS_ORDER,default='pending')
 
     def __str__(self):
-        return (self.id)
+        return str(self.user)
+
+    @property
+    def total_cost(self):
+        return self.quantity * self.product.discounted_price
